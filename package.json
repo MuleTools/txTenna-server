@@ -1,0 +1,30 @@
+{
+  "name": "txtenna-gateway",
+  "version": "0.1.0",
+  "description": "NodeJS gateway for TxTenna",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha --recursive --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:Samourai-Wallet/txTenna-gateway.git"
+  },
+  "author": "Samourai Wallet",
+  "license": "MIT",
+  "homepage": "https://github.com/Samourai-Wallet/txTenna-gateway",
+  "dependencies": {
+    "bitcoind-rpc-client": "0.3.1",
+    "bitcoinjs-lib": "3.2.0",
+    "body-parser": "1.17.1",
+    "express": "4.15.2",
+    "helmet": "3.12.1",
+    "lru-cache": "4.0.2",
+    "request": "2.81.0",
+    "request-promise-native": "1.0.5"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0"
+  }
+}
