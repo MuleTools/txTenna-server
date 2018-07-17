@@ -19,7 +19,7 @@ For pushing transactions on the Bitcoin network, the Gateway currently supports 
 
 ## Known limitations
 
-The current version of the Gateway is provided as a Proof of Concept. It doesn't provide any mechanism protecting the Gatweway from Denial of Service attacks by byzantines TxTenna nodes. While the protocol allows to check the integrity of the segments thanks to the transaction TXID, it's still possible for byzantines TXTenna nodes to flood the Gateway with tempered segments preventing the reconstruction of the correct transaction.
+The current version of the Gateway is provided as a Proof of Concept. It doesn't provide any mechanism protecting the Gatweway from Denial of Service attacks by byzantines TxTenna nodes. While the protocol allows to check the integrity of the segments thanks to the transaction TXID, it's still possible for byzantines TXTenna nodes to flood the Gateway with tampered segments preventing the reconstruction of the correct transaction.
 
 ## Requirements
 
