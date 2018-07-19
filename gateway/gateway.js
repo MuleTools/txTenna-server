@@ -155,7 +155,7 @@ class Gateway {
     }
 
     if (!success)
-      Logger.error('Failed to push a transaction after 3 random attempts')
+      Logger.info('Failed to push a transaction after 3 random attempts')
 
     return success
   }
