@@ -1,3 +1,4 @@
 package-lock.json
 keys/index.js
 node_modules/
+*.log
