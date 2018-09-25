@@ -40,7 +40,7 @@ The current version of the Gateway is provided as a Proof of Concept. It doesn't
 * Install the required packages
 
 ```
-> npm install
+> npm install --production
 ```
 
 * Configure the Gateway by copying /keys/index-example.js into /keys/index.js and editing the content of index.js with correct values for your setup.
