@@ -17,11 +17,11 @@
   "dependencies": {
     "bitcoind-rpc-client": "0.3.1",
     "bitcoinjs-lib": "3.2.0",
-    "body-parser": "1.17.1",
-    "express": "4.15.2",
+    "body-parser": "1.18.3",
+    "express": "4.16.3",
     "helmet": "3.12.1",
     "lru-cache": "4.0.2",
-    "request": "2.81.0",
+    "request": "2.88.0",
     "request-promise-native": "1.0.5"
   },
   "devDependencies": {
