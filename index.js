@@ -4,16 +4,12 @@
 'use strict'
 
 const Logger = require('./lib/logger')
-// Check in command if we run in testnet mode
-const network = (process.argv.indexOf('testnet') > 1) ? 'testnet' : 'bitcoin'
-const keys = require('./keys')[network]
+const keys = require('./keys')
 const HttpServer = require('./lib/http-server/http-server')
 const GatewayRestApi = require('./gateway/gateway-rest-api')
 const gateway = require('./gateway/gateway')
 
-
 Logger.info('Process ID: ' + process.pid)
-Logger.info(`${network} mode activated`)
 
 // Initialize the http server
 const port = keys.ports.gatewayApi
