@@ -150,7 +150,7 @@ class Gateway {
 
     while (!success && nbAttempts < 3) {
       const idx = Math.floor(Math.random() * nbServices)
-      const success = await this.pushTxServices[idx].pushTx(rawTx)
+      success = await this.pushTxServices[idx].pushTx(rawTx)
       nbAttempts++
     }
 
