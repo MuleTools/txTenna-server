@@ -18,7 +18,10 @@ class Gateway {
    */
   constructor() {
     this.storage = null
-    this.pushTxServices = []
+    this.supportsTestnet = false
+    this.supportsMainnet = false
+    this.pushTxServicesMainnet = []
+    this.pushTxServicesTestnet = []
   }
 
   /**
@@ -46,16 +49,28 @@ class Gateway {
     for (let confWrapper of configWrappers) {
       try {
         const Wrapper = require(`../lib/pushtx-wrappers/${confWrapper.type}/wrapper`)
-        const wrapper = new Wrapper(confWrapper.options)
-        this.pushTxServices.push(wrapper)
-        Logger.info(`Initialized pushtx wrapper ${confWrapper.type}`)
+        const wrapper = new Wrapper(confWrapper.options, confWrapper.name)
+
+        if (confWrapper.network == 't') {
+          this.pushTxServicesTestnet.push(wrapper)
+          this.supportsTestnet = true
+        } else {
+          this.pushTxServicesMainnet.push(wrapper)
+          this.supportsMainnet = true
+        }
+
+        Logger.info(`Initialized pushtx wrapper ${confWrapper.name}`)
+
       } catch(e) {
-        Logger.error(e, `A problem was met while trying to initialize the pushtx wrapper ${confWrapper.type}`)
+        Logger.error(
+          e,
+          `A problem was met while trying to initialize the pushtx wrapper ${confWrapper.name}`
+        )
         return false
       }
     }
 
-    if (this.pushTxServices.length == 0)
+    if ((this.pushTxServicesTestnet.length == 0) && (this.pushTxServicesMainnet.length == 0))
       return false
 
     return true
@@ -77,6 +92,8 @@ class Gateway {
     if (segmentIdx == 0) {
       if (!segment.s) return false
       if (!segment.h) return false
+      if (segment.n == 't' && !this.supportsTestnet) return false
+      if (segment.n == 'm' && !this.supportsMainnet) return false
     }
 
     // Check if tranaction has already been processed
@@ -84,7 +101,6 @@ class Gateway {
       Logger.info(`Bundle ${bundleId} already processed. Skipped processing of segment ${bundleId}-${segmentIdx}`)
       return true
     }
-      
 
     // Store the segment
     this.storage.addSegment(segment)
@@ -110,7 +126,7 @@ class Gateway {
       if (!rawTx) return false
 
       // Push the transaction
-      const resultPush = await this.pushTx(rawTx)
+      const resultPush = await this.pushTx(rawTx, segment.n)
 
       if (resultPush)
         Logger.info(`Successfully pushed tx ${bundle.h} (${bundleId})`)
@@ -128,20 +144,30 @@ class Gateway {
   /**
    * Push a transaction over a service
    * @param {string} rawTx - transaction in hex format
+   * @param {string} network - target network ('t'=testet, 'm'=mainnet)
    * @returns {boolean} returns true if transaction has been successfully pushed, false otherwise
    */
-  async pushTx(rawTx) {
-    const nbServices = this.pushTxServices.length
+  async pushTx(rawTx, network) {
+    const services =
+      (network == 't')
+      ? this.pushTxServicesTestnet
+      : this.pushTxServicesMainnet
+    
+    const nbServices = services.length
+    const networkLabel = (network == 't') ? 'testnet' : 'mainnet'
 
     // No service available
     if (nbServices == 0) {
-      Logger.error('Failed to push a transaction. No pushtx service available')
+      Logger.error(
+        null,
+        `Failed to push a transaction. No pushtx service available for ${networkLabel}`
+      )
       return false
     }      
 
     // A single service is available
     if (nbServices == 1)
-      return await this.pushTxServices[0].pushTx(rawTx)
+      return await services[0].pushTx(rawTx)
 
     // Multiple services are available
     // Select a random service and try to push the transaction
@@ -150,12 +176,12 @@ class Gateway {
 
     while (!success && nbAttempts < 3) {
       const idx = Math.floor(Math.random() * nbServices)
-      success = await this.pushTxServices[idx].pushTx(rawTx)
+      success = await services[idx].pushTx(rawTx)
       nbAttempts++
     }
 
     if (!success)
-      Logger.info('Failed to push a transaction after 3 random attempts')
+      Logger.info(`Failed to push a transaction on ${networkLabel} after 3 random attempts`)
 
     return success
   }

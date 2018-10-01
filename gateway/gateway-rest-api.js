@@ -79,10 +79,21 @@ class GatewayRestApi {
         return
       }
 
-      // Process the network (optional)
+      // Process the network (optional, default='m' (mainnet))
       if (req.body.n)
         segment.n = req.body.n
+      else
+        segment.n = 'm'
 
+      if (segment.n == 't' && !gateway.supportsTestnet) {
+        Logger.error(null, 'Bitcoin testnet is not supported by this gateway')
+        HttpServer.sendError(res, 'Bitcoin testnet is not supported by this gateway')
+        return
+      } else if (segment.n == 'm' && !gateway.supportsMainnet) {
+        Logger.error(null, 'Bitcoin mainnet is not supported by this gateway')
+        HttpServer.sendError(res, 'Bitcoin mainnet is not supported by this gateway')
+        return
+      }
     }
 
     // Process the tx segment
