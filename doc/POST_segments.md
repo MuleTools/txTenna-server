@@ -14,7 +14,7 @@ POST /segments
 * **n** - `char` (optional) - Network to use. 't' for TestNet3, otherwise assume MainNet. Only used in the first segment for a given transaction.
 * **i** - `string` - TxTenna unid identifying the transaction (8 bytes).
 * **c** - `integer` - Sequence number for this segment. May be omitted in first segment for a given transaction (assumed to be 0).
-* **c** - `string` - Hex transaction data for this segment. May be Z85-encoded.
+* **t** - `string` - Hex transaction data for this segment. May be Z85-encoded.
 
 ### Example
 
