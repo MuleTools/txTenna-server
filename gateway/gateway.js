@@ -126,7 +126,7 @@ class Gateway {
       if (!rawTx) return false
 
       // Push the transaction
-      const resultPush = await this.pushTx(rawTx, segment.n)
+      const resultPush = await this.pushTx(rawTx, bundle.n)
 
       if (resultPush)
         Logger.info(`Successfully pushed tx ${bundle.h} (${bundleId})`)
