@@ -15,7 +15,7 @@ THe gateway temporarily stores the segments. When all segments related to a tran
 
 The gateway is provided with a default storage system using a transient memory cache. Additional types of storage may be implemented in the future (temporary storage in a database, etc). Note that a single storage can be used at once.
 
-For pushing transactions on the Bitcoin network, the gateway currently supports pushes through the RPC API of a bitcoin node or through the pushTx service provided by an instance of the Samourai backend. Additional pushTx services may be implemented in the future. Multiple pushTx services can be activated. The Gateway randomly selects a service for each push.
+For pushing transactions on the Bitcoin network, the gateway currently supports pushes through the RPC API of a bitcoin node or through the pushTx service provided by an instance of the Samourai backend (Dojo). Additional pushTx services may be implemented in the future. Multiple pushTx services can be activated. The Gateway randomly selects a service for each push.
 
 ## Known limitations
 
