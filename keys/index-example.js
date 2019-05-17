@@ -103,8 +103,8 @@ module.exports = {
    *     name:'samourai backend mainnet',
    *     // Configuration of the wrapper
    *     options: {
-   *       // URL of the pushtx endpoint
-   *       url: "https://api.samouraiwallet.com/v2/pushtx",
+   *       // Base url of the Samourai backend
+   *       url: "https://api.samouraiwallet.com/v2",
    *       // API key requested by the backend
    *       // or null if the backend doesn't require authentication
    *       apiKey: null
